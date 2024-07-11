@@ -1,10 +1,7 @@
-export interface User {
+export interface Watch {
     id?: string;
-    name: string;
-    email: string;
-    password: string;
-    confirmPassword?: string;
-    // recipes: Recipe[];
-    createdAt?: Date;
-    updatedAt?: Date;
+    model: string;
+    price: number;
+    updatedPrice: number,
+    month: string,
   }

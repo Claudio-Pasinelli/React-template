@@ -1,1 +1,25 @@
-{}
+{
+  "watches": [
+    {
+      "id": "0",
+      "model": "RUNNER 25",
+      "price": 159,
+      "updatedPrice": 333,
+      "month": "Febbraio"
+    },
+    {
+      "id": "1",
+      "model": "RUNNER 360",
+      "price": 229,
+      "updatedPrice": 100,
+      "month": "Marzo"
+    },
+    {
+      "id": "2",
+      "model": "RUNNER PRO",
+      "price": 369,
+      "updatedPrice": 50,
+      "month": "Marzo"
+    }
+  ]
+}
