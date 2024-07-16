@@ -17,6 +17,7 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [open, setOpen] = useState(false);
+  const [openConfirm, setOpenConfirm] = useState(false);
   const [updatedPrice, setUpdatedPrice] = useState('');
   const [updatedMonth, setUpdatedMonth] = useState('');
   const [updatedPriceError, setUpdatedPriceError] = useState('');
@@ -64,8 +65,26 @@ const Home = () => {
     setOpen(true);
   };
 
+  const handleDelete = (item: Watch) => {
+    setWatch(item);
+    setUpdatedPrice(
+      item.updatedPrice
+        ? item.updatedPrice.toFixed(2).toString()
+        : item.price.toFixed(2).toString(),
+    );
+    setUpdatedMonth(item.month ? item.month : '');
+    setOpenConfirm(true);
+  };
+
   const handleIsOpen = (open: boolean) => {
     setOpen(open);
+    if (!open) {
+      handleReset();
+    }
+  };
+
+  const handleIsOpenConfirm = (open: boolean) => {
+    setOpenConfirm(open);
     if (!open) {
       handleReset();
     }
@@ -114,6 +133,23 @@ const Home = () => {
       } finally {
         handleIsOpen(false);
       }
+    }
+  };
+
+  const handleDeleteWatch = async (watchId: string) => {
+    setLoading(true);
+    try {
+      await axios.delete(`http://localhost:4000/watches/${watchId}`);
+      const updatedWatches = watches.filter((w) => w.id !== watchId);
+      setWatches(updatedWatches);
+      setWatchesFiltered(updatedWatches);
+      handleIsOpenConfirm(false);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setTimeout(() => {
+        setLoading(false);
+      }, 250);
     }
   };
 
@@ -171,7 +207,12 @@ const Home = () => {
               containerClassName="m-4 sm:m-0"
             />
           </section>
-          <Table columns={COLUMNS} data={getDisplayData(watchesFiltered)} handleEdit={handleEdit} />
+          <Table
+            columns={COLUMNS}
+            data={getDisplayData(watchesFiltered)}
+            handleEdit={handleEdit}
+            handleDelete={handleDelete}
+          />
         </section>
       </section>
       <Modal isOpen={open} handleIsOpen={handleIsOpen}>
@@ -226,6 +267,44 @@ const Home = () => {
               backgroundColor="bg-yellow-200 hover:bg-yellow-50"
               iconName="rightArrow"
               onClick={handleEditConfirm}
+            />
+          </section>
+        </article>
+      </Modal>
+
+      {/* delete */}
+      <Modal isOpen={openConfirm} handleIsOpen={handleIsOpenConfirm}>
+        <article>
+          <section className="flex justify-end">
+            <Button
+              className="justify-content-end m-2 !h-fit !max-h-fit !min-h-fit !w-fit !min-w-fit !max-w-fit !bg-white !p-0"
+              iconName="close"
+              onClick={() => handleIsOpen(false)}
+            />
+          </section>
+          <p>
+            Sei sicuro di voler eliminare <b className="text-red-100">{watch?.model}</b>?
+          </p>
+          <section className="grid size-full grid-cols-1 place-items-center gap-7 p-2.5 sm:grid-cols-2">
+            <Button
+              type="reset"
+              text="Annulla"
+              title="Annulla"
+              textColor="text-black"
+              className="!sm:w-auto !w-full"
+              backgroundColor="bg-gray-300 hover:bg-gray-200 hover:text-gray-100"
+              iconName="reset"
+              textSize="text-xs"
+              onClick={() => handleIsOpen(false)}
+            />
+            <Button
+              text="Conferma"
+              title="Conferma"
+              iconColor="white"
+              className="!sm:w-auto !w-full"
+              backgroundColor="bg-yellow-200 hover:bg-yellow-50"
+              iconName="rightArrow"
+              onClick={() => watch?.id && handleDeleteWatch(watch.id)}
             />
           </section>
         </article>

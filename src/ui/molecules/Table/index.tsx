@@ -4,8 +4,9 @@ interface Props {
   columns: { name: string; columnName: string }[];
   data: any[];
   handleEdit?: (item: any) => void;
+  handleDelete?: (item: any) => void;
 }
-const Table = ({ columns, data, handleEdit }: Props) => {
+const Table = ({ columns, data, handleEdit, handleDelete }: Props) => {
   return (
     <table className="min-w-full divide-y divide-gray-300 border">
       <thead className="bg-gray-200 text-white">
@@ -35,8 +36,8 @@ const Table = ({ columns, data, handleEdit }: Props) => {
                 ''
               ),
             )}
-            {handleEdit && (
-              <td className="text-gray-500 flex justify-center whitespace-nowrap px-3 py-4 text-sm">
+            <td className="text-gray-500 flex justify-around whitespace-nowrap px-3 py-4 text-sm">
+              {handleEdit && (
                 <Button
                   className="!w-fit !min-w-fit !max-w-fit !p-2"
                   backgroundColor="bg-gray-100 hover:bg-white"
@@ -44,8 +45,17 @@ const Table = ({ columns, data, handleEdit }: Props) => {
                   iconName="edit"
                   onClick={() => handleEdit(data)}
                 />
-              </td>
-            )}
+              )}
+              {handleDelete && (
+                <Button
+                  className="!w-fit !min-w-fit !max-w-fit !p-2"
+                  backgroundColor="bg-gray-100 hover:bg-white"
+                  title="Elimina"
+                  iconName="delete"
+                  onClick={() => handleDelete(data)}
+                />
+              )}
+            </td>
           </tr>
         ))}
       </tbody>
