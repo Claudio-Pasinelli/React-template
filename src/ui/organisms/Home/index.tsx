@@ -23,19 +23,6 @@ const Home = () => {
   const [updatedPriceError, setUpdatedPriceError] = useState('');
   const [updatedMonthError, setUpdatedMonthError] = useState('');
 
-  const handleGetWatches = async () => {
-    try {
-      const responseWatches = await axios.get('http://localhost:4000/watches');
-      const allWatches: Watch[] = responseWatches.data;
-      setWatches(allWatches);
-      setWatchesFiltered(allWatches);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const handleChangeSearch = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value.trim().toLowerCase();
     setSearchTerm(value);
@@ -67,16 +54,10 @@ const Home = () => {
 
   const handleDelete = (item: Watch) => {
     setWatch(item);
-    setUpdatedPrice(
-      item.updatedPrice
-        ? item.updatedPrice.toFixed(2).toString()
-        : item.price.toFixed(2).toString(),
-    );
-    setUpdatedMonth(item.month ? item.month : '');
     setOpenConfirm(true);
   };
 
-  const handleIsOpen = (open: boolean) => {
+  const handleIsOpenEdit = (open: boolean) => {
     setOpen(open);
     if (!open) {
       handleReset();
@@ -85,9 +66,6 @@ const Home = () => {
 
   const handleIsOpenConfirm = (open: boolean) => {
     setOpenConfirm(open);
-    if (!open) {
-      handleReset();
-    }
   };
 
   const handleEditConfirm = async () => {
@@ -131,7 +109,7 @@ const Home = () => {
       } catch (err) {
         console.error(err);
       } finally {
-        handleIsOpen(false);
+        handleIsOpenEdit(false);
       }
     }
   };
@@ -161,6 +139,7 @@ const Home = () => {
   };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    console.log('Input change:', event.target.name, event.target.value);
     if (event.target.name === 'updatedPrice') {
       setUpdatedPrice(event.target.value);
     }
@@ -174,10 +153,6 @@ const Home = () => {
     return /^\d*\.?\d*$/.test(value);
   };
 
-  useEffect(() => {
-    handleGetWatches();
-  }, []);
-
   const getDisplayData = (data: Watch[]): Watch[] => {
     return data.map((watch) => ({
       ...watch,
@@ -188,6 +163,23 @@ const Home = () => {
         : watch.price,
     }));
   };
+
+  const handleGetWatches = async () => {
+    try {
+      const responseWatches = await axios.get('http://localhost:4000/watches');
+      const allWatches: Watch[] = responseWatches.data;
+      setWatches(allWatches);
+      setWatchesFiltered(allWatches);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    handleGetWatches();
+  }, []);
 
   if (loading) {
     return <Loader />;
@@ -215,14 +207,14 @@ const Home = () => {
           />
         </section>
       </section>
-      <Modal isOpen={open} handleIsOpen={handleIsOpen}>
+      <Modal isOpen={open} handleIsOpen={handleIsOpenEdit}>
         <article>
           <section className="flex justify-end">
             <Button
               className="justify-content-end m-2 !h-fit !max-h-fit !min-h-fit !w-fit !min-w-fit !max-w-fit !bg-white !p-0"
               iconName="close"
               title="Chiudi"
-              onClick={() => handleIsOpen(false)}
+              onClick={() => handleIsOpenEdit(false)}
             />
           </section>
           <p className="font-bold">{watch?.model}</p>
@@ -257,7 +249,7 @@ const Home = () => {
               backgroundColor="bg-gray-300 hover:bg-gray-200 hover:text-gray-100"
               iconName="reset"
               textSize="text-xs"
-              onClick={() => handleIsOpen(false)}
+              onClick={() => handleIsOpenEdit(false)}
             />
             <Button
               text="Conferma"
@@ -272,14 +264,13 @@ const Home = () => {
         </article>
       </Modal>
 
-      {/* delete */}
       <Modal isOpen={openConfirm} handleIsOpen={handleIsOpenConfirm}>
         <article>
           <section className="flex justify-end">
             <Button
               className="justify-content-end m-2 !h-fit !max-h-fit !min-h-fit !w-fit !min-w-fit !max-w-fit !bg-white !p-0"
               iconName="close"
-              onClick={() => handleIsOpen(false)}
+              onClick={() => handleIsOpenConfirm(false)}
             />
           </section>
           <p>
@@ -295,7 +286,7 @@ const Home = () => {
               backgroundColor="bg-gray-300 hover:bg-gray-200 hover:text-gray-100"
               iconName="reset"
               textSize="text-xs"
-              onClick={() => handleIsOpen(false)}
+              onClick={() => handleIsOpenConfirm(false)}
             />
             <Button
               text="Conferma"
