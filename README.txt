@@ -1,5 +1,13 @@
-Per scaricare le dipendenze del progetto, bisogna assicurarsi di essere nella cartella del progetto, poi bisogna aprire il terminale bash e scrivere il comando "npm i" e poi premere invio, ci potrebbero volere alcuni minuti perché l'installazione venga completata.
+    COME INSTALLARE IL PROGETTO
 
-L'unico pacchetto che non verrà installato sarà "react-icons", scrivere quindi nel terminale "npm i react-icons" e aspettare per il completamento dell'azione.
+# Per scaricare le dipendenze del progetto, bisogna assicurarsi di essere nella cartella del progetto, poi bisogna aprire il terminale bash e scrivere il comando "npm i" e poi premere invio, ci potrebbero volere alcuni minuti perché l'installazione venga completata.
 
-Per far partire il progetto bisogna scrivere, sempre da terminale, "npm run start". Invece, per eseguire il server, scrivere in un secondo terminale (sempre bash), "npm run server".
+NOTA BENE
+Potrebbe accadere che un pacchetto - "react-icons" - non venga scaricato,
+per sicurezza scrivere nel terminale "npm i react-icons" e aspettare per il completamento dell'installazione.
+
+    COME FAR PARTIRE IL PROGETTO
+
+1) Per far partire il progetto bisogna scrivere, sempre da terminale, "npm run start".
+
+2) Invece, per eseguire il server, scrivere in un secondo terminale (sempre bash), "npm run server".
