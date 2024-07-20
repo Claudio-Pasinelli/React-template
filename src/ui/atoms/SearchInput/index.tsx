@@ -20,7 +20,7 @@ export default function SearchInput({ name, containerClassName, error, ...rest }
         className={cn(
           'h-full min-w-[25%] max-w-full flex-grow rounded-l-3xl bg-white p-2 text-center placeholder:text-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300',
         )}
-        placeholder="Cerca un orologio"
+        placeholder="Cerca"
         {...rest}
         type="text"
       />
