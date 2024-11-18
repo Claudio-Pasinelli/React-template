@@ -11,7 +11,7 @@ Premendo su "Conferma" i dati inseriti verranno convalidati,
 qualora ci dovessero essere degli errori questi verranno segnalati in rosso sotto agli input il cui valore è errato,
 in caso contrario la modifica avverrà con successo e la tabella verrà aggiornata.
 
-Premendo invece sul pultante a forma di cestino, che è accanto a quello della modifica,
+Premendo invece sul pulsante a forma di cestino, che è accanto a quello della modifica,
 si aprirà invece un modale per confermare l'eliminazione dell'oggetto, toccando su annulla o sulla X in alto a destra il modale verrà chiuso,
 cliccando invece su "Conferma" si avrà l'eliminazione dell'oggetto, il modale si chiuderà e la tabella verrà aggiornata.
 Ad ogni aggiornamento della tabella, in attesa che i suoi dati vengano modificati a dovere, si avrà un'animazione di caricamento al posto di quest'ultima.
